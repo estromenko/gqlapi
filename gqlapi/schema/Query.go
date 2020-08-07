@@ -8,11 +8,8 @@ import (
 func (s *Schema) QueryType() *graphql.Object {
 	return graphql.NewObject(
 		graphql.ObjectConfig{
-
 			Name: "Query",
-
 			Fields: graphql.Fields{
-
 				"user": &graphql.Field{
 					Type: UserType(),
 					Args: graphql.FieldConfigArgument{
@@ -22,9 +19,8 @@ func (s *Schema) QueryType() *graphql.Object {
 					},
 					Resolve: s.userResolver,
 				},
-
 				"users": &graphql.Field{
-					Type: graphql.NewList(UserType()),
+					Type:    graphql.NewList(UserType()),
 					Resolve: s.usersResolver,
 				},
 			},

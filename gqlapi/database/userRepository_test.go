@@ -20,5 +20,5 @@ func TestUserRepository(t *testing.T) {
 	defer db.Close()
 
 	user := db.User().FindByID("1")
-	assert.Equal(t, user.ID, int64(1), "Wrong user id")
+	assert.Equal(t, user.ID, 1, "Wrong user id")
 }

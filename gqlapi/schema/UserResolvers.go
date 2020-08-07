@@ -12,3 +12,12 @@ func (s *Schema) usersResolver(p graphql.ResolveParams) (interface{}, error) {
 	users, err := s.deps.db.User().FindAll()
 	return users, err
 }
+
+func (s *Schema) createUserResolver(p graphql.ResolveParams) (interface{}, error) {
+	email := p.Args["email"].(string)
+	username := p.Args["username"].(string)
+	password := p.Args["password"].(string)
+
+	user, err := s.deps.db.User().Create(email, username, password)
+	return user, err
+}

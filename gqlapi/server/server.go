@@ -34,6 +34,6 @@ func (s *Server) Run() error {
 
 	http.Handle("/graphql", s.handler(schema))
 
-	s.logger.Info("Server started at port" + s.config.Port)
+	s.logger.Info("Server started at port " + s.config.Port)
 	return http.ListenAndServe(":"+s.config.Port, nil)
 }

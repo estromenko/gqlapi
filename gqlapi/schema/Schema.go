@@ -26,7 +26,8 @@ func NewSchema(db *database.Database, logger *zap.Logger) *Schema {
 func (s *Schema) Build() graphql.Schema {
 	schema, _ := graphql.NewSchema(
 		graphql.SchemaConfig{
-			Query: s.QueryType(),
+			Query:    s.QueryType(),
+			Mutation: s.MutationType(),
 		},
 	)
 	return schema
