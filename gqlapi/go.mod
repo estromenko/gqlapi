@@ -8,4 +8,5 @@ require (
 	github.com/lib/pq v1.8.0
 	go.uber.org/zap v1.15.0
 	gopkg.in/yaml.v2 v2.3.0
+	github.com/stretchr/testify v1.4.0
 )

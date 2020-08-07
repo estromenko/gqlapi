@@ -1,0 +1,32 @@
+version: '3.1'
+
+services: 
+  api:
+    container_name: api
+    build: .
+    ports: 
+      - "8080:8080"
+    volumes: 
+      - ./gqlapi:/workdir
+
+    command: sh /workdir/cmd/start.sh
+
+    depends_on: 
+      - db
+
+  db:
+    container_name: db
+    image: postgres:12 
+    restart: always
+    environment: 
+      POSTGRES_PASSWORD: 1234
+    volumes: 
+      - /var/lib/postgresql:/var/lib/postgresql
+
+  nginx:
+    container_name: nginx
+    build: nginx
+    depends_on: 
+      - api
+    ports: 
+      - "8000:8000"

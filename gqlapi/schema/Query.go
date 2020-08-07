@@ -20,19 +20,12 @@ func (s *Schema) QueryType() *graphql.Object {
 							Type: graphql.ID,
 						},
 					},
-					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						id := p.Args["id"].(string)
-						user := s.deps.db.User().FindByID(id)
-						return user, nil
-					},
+					Resolve: s.userResolver,
 				},
 
 				"users": &graphql.Field{
 					Type: graphql.NewList(UserType()),
-					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						users, err := s.deps.db.User().FindAll()
-						return users, err
-					},
+					Resolve: s.usersResolver,
 				},
 			},
 		},

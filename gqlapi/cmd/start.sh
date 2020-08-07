@@ -1,0 +1,1 @@
+go build -o /workdir/pkg/api /workdir/main.go && /workdir/pkg/api
