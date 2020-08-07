@@ -1,1 +1,1 @@
-go build -o /workdir/pkg/api /workdir/main.go && /workdir/pkg/api
+go build -o /workdir/pkg/api /workdir/main.go && /workdir/pkg/api -migrate=t

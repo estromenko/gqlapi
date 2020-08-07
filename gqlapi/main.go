@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"gqlapi/config"
 	"gqlapi/database"
 	"gqlapi/logging"
@@ -8,6 +9,15 @@ import (
 	"gqlapi/server"
 	"log"
 )
+
+var (
+	migrate bool
+)
+
+func init() {
+	flag.BoolVar(&migrate, "migrate", false, "Migrations")
+	flag.Parse()
+}
 
 func main() {
 	// Config
@@ -29,6 +39,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
+	if migrate {
+		if err := db.Migrate(); err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	// Schema
 	schema := schema.NewSchema(db, logger)
