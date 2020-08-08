@@ -10,7 +10,7 @@ import (
 )
 
 func TestDatabase(t *testing.T) {
-	conf, err := config.ReadConfig("../config/config.yml")
+	conf, err := config.ReadConfig("../config/config_test.yml")
 	assert.NoError(t, err)
 
 	log, err := logging.NewLogger(conf)

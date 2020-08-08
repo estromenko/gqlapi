@@ -31,19 +31,13 @@ func (u *UserRepository) FindByID(id string) *models.User {
 }
 
 // Create ...
-func (u *UserRepository) Create(email string, username string, password string) (*models.User, error) {
-	var user *models.User
+func (u *UserRepository) Create(user *models.User) error {
 
 	query := u.db.NewQuery(
 		fmt.Sprintf(`INSERT INTO users (email, username, password) VALUES ('%s', '%s', '%s') RETURNING id, email, username, password`,
-			email, username, password,
+			user.Email, user.Username, user.Password,
 		),
 	)
 
-	err := query.One(&user)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, err
+	return query.One(&user)
 }

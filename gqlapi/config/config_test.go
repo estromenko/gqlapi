@@ -7,20 +7,20 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	tests := []struct{
+	tests := []struct {
 		name string
 		path string
-		err bool
+		err  bool
 	}{
 		{
 			name: "Wrong config path",
 			path: "Some random config path",
-			err: true,
+			err:  true,
 		},
 		{
 			name: "Right config path",
-			path: "config.yml",
-			err: false,
+			path: "config_test.yml",
+			err:  false,
 		},
 	}
 

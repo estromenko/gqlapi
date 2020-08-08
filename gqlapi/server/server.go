@@ -2,7 +2,6 @@ package server
 
 import (
 	"gqlapi/config"
-	"gqlapi/database"
 	"gqlapi/schema"
 	"net/http"
 
@@ -11,16 +10,14 @@ import (
 
 // Server ...
 type Server struct {
-	db     *database.Database
 	config *config.ServerConfig
 	logger *zap.Logger
 	schema *schema.Schema
 }
 
 // NewServer ...
-func NewServer(db *database.Database, config *config.Config, logger *zap.Logger, schema *schema.Schema) *Server {
+func NewServer(config *config.Config, logger *zap.Logger, schema *schema.Schema) *Server {
 	return &Server{
-		db:     db,
 		config: config.Server,
 		logger: logger,
 		schema: schema,

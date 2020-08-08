@@ -1,7 +1,9 @@
 package schema
 
 import (
+	"gqlapi/config"
 	"gqlapi/database"
+	"gqlapi/service"
 
 	"github.com/graphql-go/graphql"
 	"go.uber.org/zap"
@@ -13,11 +15,12 @@ type Schema struct {
 }
 
 // NewSchema ...
-func NewSchema(db *database.Database, logger *zap.Logger) *Schema {
+func NewSchema(db *database.Database, logger *zap.Logger, config *config.Config) *Schema {
 	return &Schema{
 		deps: &dependencies{
-			db:     db,
-			logger: logger,
+			db:          db,
+			logger:      logger,
+			userService: service.NewUserService(db, logger, config),
 		},
 	}
 }
@@ -34,6 +37,7 @@ func (s *Schema) Build() graphql.Schema {
 }
 
 type dependencies struct {
-	db     *database.Database
-	logger *zap.Logger
+	db          *database.Database
+	logger      *zap.Logger
+	userService *service.UserService
 }

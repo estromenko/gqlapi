@@ -36,20 +36,20 @@ func main() {
 	// Database
 	db := database.NewDatabase(conf, logger)
 	if err := db.Open(); err != nil {
-		log.Fatal(err)
+		logger.Fatal(err.Error())
 	}
 	defer db.Close()
 
 	if migrate {
 		if err := db.Migrate(); err != nil {
-			log.Fatal(err)
+			logger.Fatal(err.Error())
 		}
 	}
 
 	// Schema
-	schema := schema.NewSchema(db, logger)
+	schema := schema.NewSchema(db, logger, conf)
 
 	// Server
-	serv := server.NewServer(db, conf, logger, schema)
-	log.Fatal(serv.Run())
+	serv := server.NewServer(conf, logger, schema)
+	logger.Fatal(serv.Run().Error())
 }

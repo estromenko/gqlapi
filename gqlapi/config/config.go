@@ -11,6 +11,7 @@ type Config struct {
 	Database *DatabaseConfig `yaml:"database"`
 	Server   *ServerConfig   `yaml:"server"`
 	Logger   *LoggerConfig   `yaml:"logger"`
+	User     *UserConfig     `yaml:"user"`
 }
 
 // DatabaseConfig ...
@@ -27,6 +28,12 @@ type ServerConfig struct {
 // LoggerConfig ...
 type LoggerConfig struct {
 	Level string `yaml:"level"`
+}
+
+// UserConfig ...
+type UserConfig struct {
+	Salt      string `yaml:"salt"`
+	JWTSecret string `yaml:"jwt_secret"`
 }
 
 // ReadConfig ...

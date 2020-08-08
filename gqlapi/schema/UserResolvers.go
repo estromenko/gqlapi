@@ -1,6 +1,10 @@
 package schema
 
-import "github.com/graphql-go/graphql"
+import (
+	"gqlapi/database/models"
+
+	"github.com/graphql-go/graphql"
+)
 
 func (s *Schema) userResolver(p graphql.ResolveParams) (interface{}, error) {
 	id := p.Args["id"].(string)
@@ -14,10 +18,16 @@ func (s *Schema) usersResolver(p graphql.ResolveParams) (interface{}, error) {
 }
 
 func (s *Schema) createUserResolver(p graphql.ResolveParams) (interface{}, error) {
-	email := p.Args["email"].(string)
-	username := p.Args["username"].(string)
-	password := p.Args["password"].(string)
 
-	user, err := s.deps.db.User().Create(email, username, password)
-	return user, err
+	user := models.User{
+		Email:    p.Args["email"].(string),
+		Username: p.Args["username"].(string),
+		Password: p.Args["password"].(string),
+	}
+
+	err := s.deps.userService.Create(&user)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
