@@ -29,7 +29,7 @@ func (s *Server) Run() error {
 
 	schema := s.schema.Build()
 
-	http.Handle("/graphql", s.handler(schema))
+	http.Handle("/graphql", s.baseMiddleware(s.handler(schema)))
 
 	s.logger.Info("Server started at port " + s.config.Port)
 	return http.ListenAndServe(":"+s.config.Port, nil)

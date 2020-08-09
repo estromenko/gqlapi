@@ -5,12 +5,18 @@ type User {
     password: String!
 }
 
+
 type Query {
     user(id: ID!): User
     users: [Users!]
 }
 
+type Mutation {
+    createUser(email: String!, username: String!, password: String!): User
+}
+
 schema {
-    query: Query    
+    query: Query
+    mutation: Mutation
 }
 

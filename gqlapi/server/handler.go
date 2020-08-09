@@ -8,21 +8,37 @@ import (
 )
 
 func (s *Server) handler(schema graphql.Schema) http.HandlerFunc {
-	type request struct {
-		Query string `json:"query"`
-	}
-
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "application/json")
 
-		var req request
-		json.NewDecoder(r.Body).Decode(&req)
+		query := parseQuery(r)
 
 		result := graphql.Do(graphql.Params{
-			Schema:        schema,
-			RequestString: req.Query,
+			Schema:         schema,
+			RequestString:  query.Query,
+			VariableValues: query.Variables,
+			OperationName:  query.OperationName,
 		})
 
 		json.NewEncoder(w).Encode(result)
 	}
+}
+
+type request struct {
+	Query         string                 `json:"query"`
+	OperationName string                 `json:"operationName"`
+	Variables     map[string]interface{} `json:"variables"`
+}
+
+func parseQuery(r *http.Request) request {
+	var req request
+
+	if r.Method == "GET" {
+		params := r.URL.Query()
+		req.Query = params.Get("query")
+		req.OperationName = params.Get("operationName")
+	} else {
+		json.NewDecoder(r.Body).Decode(&req)
+	}
+
+	return req
 }
