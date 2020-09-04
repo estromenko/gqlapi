@@ -1,8 +1,9 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
-	"gqlapi/database/models"
+	"gqlapi/models"
 
 	dbx "github.com/go-ozzo/ozzo-dbx"
 )
@@ -22,12 +23,17 @@ func (u *UserRepository) FindAll() ([]models.User, error) {
 }
 
 // FindByID ...
-func (u *UserRepository) FindByID(id string) *models.User {
+func (u *UserRepository) FindByID(id string) (*models.User, error) {
 	var user *models.User
 
 	query := u.db.NewQuery(`SELECT * FROM users WHERE id=` + id)
-	query.One(&user)
-	return user
+	err := query.One(&user)
+
+	if err == sql.ErrNoRows {
+		err = nil
+	}
+
+	return user, err
 }
 
 // Create ...

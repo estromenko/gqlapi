@@ -21,7 +21,7 @@ func TestHandler(t *testing.T) {
 	assert.NoError(t, err, "Error creating logger with given config")
 	db := database.NewDatabase(conf, logger)
 	sch := schema.NewSchema(db, logger, conf)
-	s := NewServer(conf, logger, sch)
+	s := NewServer(conf, db, logger, sch)
 
 	query := "query{users{email,password}}"
 	req, err := http.NewRequest("GET", "/graphql", nil)

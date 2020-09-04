@@ -50,6 +50,6 @@ func main() {
 	schema := schema.NewSchema(db, logger, conf)
 
 	// Server
-	serv := server.NewServer(conf, logger, schema)
+	serv := server.NewServer(conf, db, logger, schema)
 	logger.Fatal(serv.Run().Error())
 }

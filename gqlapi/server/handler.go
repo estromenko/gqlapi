@@ -17,6 +17,7 @@ func (s *Server) handler(schema graphql.Schema) http.HandlerFunc {
 			RequestString:  query.Query,
 			VariableValues: query.Variables,
 			OperationName:  query.OperationName,
+			Context:        r.Context(),
 		})
 
 		json.NewEncoder(w).Encode(result)

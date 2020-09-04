@@ -9,7 +9,7 @@ func (s *Schema) MutationType() *graphql.Object {
 			Name: "Mutation",
 			Fields: graphql.Fields{
 				"createUser": &graphql.Field{
-					Type: UserType(),
+					Type: UserWithTokenType(),
 					Args: graphql.FieldConfigArgument{
 						"email": &graphql.ArgumentConfig{
 							Type: graphql.String,

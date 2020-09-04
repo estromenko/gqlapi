@@ -5,6 +5,10 @@ type User {
     password: String!
 }
 
+type UserWithToken {
+    user: User!
+    token: String!
+}
 
 type Query {
     user(id: ID!): User
@@ -12,7 +16,9 @@ type Query {
 }
 
 type Mutation {
-    createUser(email: String!, username: String!, password: String!): User
+    createUser(email: String!, username: String!, password: String!): UserWithToken
+
+    # TODO: login(email: String!, password: String!): UserWithToken
 }
 
 schema {

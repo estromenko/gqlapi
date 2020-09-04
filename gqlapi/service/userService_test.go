@@ -3,8 +3,8 @@ package service
 import (
 	"gqlapi/config"
 	"gqlapi/database"
-	"gqlapi/database/models"
 	"gqlapi/logging"
+	"gqlapi/models"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

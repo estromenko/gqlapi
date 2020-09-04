@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"gqlapi/config"
 	"gqlapi/database"
-	"gqlapi/database/models"
+	"gqlapi/models"
 
 	"go.uber.org/zap"
 	"golang.org/x/crypto/argon2"
 
+	"github.com/dgrijalva/jwt-go"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 )
@@ -90,18 +91,29 @@ func (u *UserService) validate(user *models.User) string {
 }
 
 // Create ...
-func (u *UserService) Create(user *models.User) error {
+func (u *UserService) Create(user *models.User) (string, error) {
 
 	// Validation
 	if message := u.validate(user); message != "" {
-		return fmt.Errorf(message)
+		return "", fmt.Errorf(message)
 	}
 
 	user.Password = u.hashPassword(user.Password)
 
 	if err := u.db.User().Create(user); err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return u.GenerateToken(user)
+}
+
+// GenerateToken ...
+func (u *UserService) GenerateToken(user *models.User) (string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+	claims["id"] = user.ID
+	claims["email"] = user.Email
+
+	return token.SignedString([]byte(u.config.JWTSecret))
 }
